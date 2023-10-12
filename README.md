@@ -13,7 +13,7 @@ PandasAI is a Python library that adds Generative AI capabilities to [pandas](ht
 
 <!-- Add images/pandas-ai.png -->
 
-![PandasAI](images/pandas-ai.png?raw=true)
+
 
 ## 🔧 Quick install
 
