@@ -18,7 +18,7 @@ PandasAI is a Python library that adds Generative AI capabilities to [pandas](ht
 ## 🔧 Quick install
 
 ```bash
-pip install pandasai
+pip install pandasai[google]
 ```
 
 ## 🔍 Demo
@@ -42,22 +42,27 @@ PandasAI is designed to be used in conjunction with pandas. It makes pandas conv
 For example, you can ask PandasAI to find all the rows in a DataFrame where the value of a column is greater than 5, and it will return a DataFrame containing only those rows:
 
 ```python
-import pandas as pd
-from pandasai import SmartDataframe
+import os
+from pandasai import PandasAI
+from pandasai.llm.openai import OpenAI
+
 
 # Sample DataFrame
-df = pd.DataFrame({
-    "country": ["United States", "United Kingdom", "France", "Germany", "Italy", "Spain", "Canada", "Australia", "Japan", "China"],
-    "gdp": [19294482071552, 2891615567872, 2411255037952, 3435817336832, 1745433788416, 1181205135360, 1607402389504, 1490967855104, 4380756541440, 14631844184064],
-    "happiness_index": [6.94, 7.16, 6.66, 7.07, 6.38, 6.4, 7.23, 7.22, 5.87, 5.12]
-})
+import pandas as pd
+
+df = pd.read_csv("/content/sample_data/california_housing_test.csv", index_col=0)
+df.head(3)
+
 
 # Instantiate a LLM
-from pandasai.llm import OpenAI
-llm = OpenAI(api_token="YOUR_API_TOKEN")
+openai_api_key = "Your API token"
+
+llm = OpenAI(api_token=openai_api_key)
+
+pandas_ai = PandasAI(llm)
 
 df = SmartDataframe(df, config={"llm": llm})
-df.chat('Which are the 5 happiest countries?')
+pandas_ai.run(df, prompt='what are the descriptive stats')
 ```
 
 The above code will return the following:
